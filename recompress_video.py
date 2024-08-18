@@ -3,12 +3,16 @@ import subprocess
 import tkinter as tk
 from tkinter import filedialog
 
+# ffmpegのパスを指定
+ffmpeg_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "ffmpeg", "ffmpeg.exe")
+print(f"FFmpeg : {ffmpeg_path}")
+
 print("一括圧縮したいフォルダーを選択してください")
 
 def compress_videos(input_folder):
     # 入力フォルダー内の全ての動画ファイルを処理
     for filename in os.listdir(input_folder):
-        if filename.endswith((".mp4", ".avi", ".mov", ".mkv", "MP4", "MOV")):  # 必要に応じて拡張子を追加
+        if filename.endswith((".mp4", ".avi", ".mov", ".mkv", "MP4", "MOV")):  #対応させる拡張子
             subfolder_name = "圧縮済み"
 
             # 元動画を読み込む
@@ -23,7 +27,7 @@ def compress_videos(input_folder):
 
             # FFmpegで動画を圧縮
             subprocess.run([
-                'ffmpeg', '-i', input_file, '-c:v', codec, 
+                ffmpeg_path, '-i', input_file, '-c:v', codec, 
                 '-profile:v', profile, '-pix_fmt', 'yuv420p', qpcrf, crf, 
                 '-c:a', 'aac', '-b:a', audio_bitrate, output_file
             ], check=True)
@@ -43,6 +47,7 @@ if __name__ == "__main__":
 
 if folder_selected:
     os.system('cls')
+    print(f"選択されたフォルダ: {folder_selected}\n")
 
     enc = input("エンコード方式を選択してください\n1:ソフトウェアエンコード(libx264) 2:ハードウェアエンコード(h264_nvenc)\n")
     print(enc)
