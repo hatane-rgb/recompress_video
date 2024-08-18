@@ -49,10 +49,10 @@ if folder_selected:
     os.system('cls')
     print(f"選択されたフォルダ: {folder_selected}\n")
 
-    enc = input("エンコード方式を選択してください\n1:ソフトウェアエンコード(libx264) 2:ハードウェアエンコード(h264_nvenc)\n")
+    enc = input("エンコード方式を選択してください\n1:libx264,crf20 2:libx264,crf15 3:h264_nvenc,qp24 4:h264_nvenc,qp19\n")
     print(enc)
     if enc == "1":
-        print("ソフトウェアエンコード(libx264)を実行します")
+        print("libx264 crf20でエンコードします")
 
         # FFmpegの圧縮設定
         codec = 'libx264' #コーデックの選択
@@ -64,12 +64,36 @@ if folder_selected:
         compress_videos(folder_selected)
         print("全ての動画ファイルの圧縮が完了しました")
     elif enc == "2":
-        print("ハードウェアエンコード(h264_nvenc)を実行します")
+        print("libx264 crf15でエンコードします")
+
+        # FFmpegの圧縮設定
+        codec = 'libx264' #コーデックの選択
+        qpcrf = '-qp' #品質パラメータ選択
+        crf = '15' #品質の数値
+        audio_bitrate = '128k' #オーディオビットレート
+        profile = 'high' #風呂入るプロファイル
+
+        compress_videos(folder_selected)
+        print("全ての動画ファイルの圧縮が完了しました")
+    elif enc == "3":
+        print("h264_nvenc qp24でエンコードします")
 
         # FFmpegの圧縮設定
         codec = 'h264_nvenc' #コーデックの選択
         qpcrf = '-qp' #品質パラメータ選択
         crf = '24' #品質の数値
+        audio_bitrate = '128k' #オーディオビットレート
+        profile = 'high' #風呂入るプロファイル
+
+        compress_videos(folder_selected)
+        print("全ての動画ファイルの圧縮が完了しました")
+    elif enc == "4":
+        print("h264_nvenc4 qp19でエンコードします")
+
+        # FFmpegの圧縮設定
+        codec = 'h264_nvenc' #コーデックの選択
+        qpcrf = '-qp' #品質パラメータ選択
+        crf = '19' #品質の数値
         audio_bitrate = '128k' #オーディオビットレート
         profile = 'high' #風呂入るプロファイル
 
